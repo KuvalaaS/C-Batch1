@@ -17,13 +17,13 @@ create table emp (
     foreign key (deptno) references dept(deptno)
 );
 
-insert into DEPT values
+insert into dept values
 (10, 'ACCOUNTING', 'NEW YORK'),
 (20, 'RESEARCH', 'DALLAS'),
 (30, 'SALES', 'CHICAGO'),
 (40, 'OPERATIONS', 'BOSTON')
 
-insert into EMP values
+insert into emp values
 (7369, 'SMITH', 'CLERK', 7902, '1980-12-17', 800, NULL, 20),
 (7499, 'ALLEN', 'SALESMAN', 7698, '1981-02-20', 1600, 300, 30),
 (7521, 'WARD', 'SALESMAN', 7698, '1981-02-22', 1250, 500, 30),
@@ -40,8 +40,8 @@ insert into EMP values
 (7934, 'MILLER', 'CLERK', 7782, '1982-01-23', 1300, NULL, 10)
 
 
-select * from  EMP
-select * from DEPT
+select * from  emp
+select * from dept
 
 --1. List all employees whose name begins with 'A'.
 select * from emp where ename like 'A%'
