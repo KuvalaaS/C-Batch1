@@ -86,3 +86,7 @@ select ename,sal,sal*12 as yearly_sal from emp where ename='SMITH'
 select ename,sal from emp where sal not between 1500 and 2850
 
 --15. Find all managers who have more than 2 employees reporting to them
+select mgr_id,count(empno) as "no of emp" from emp
+where MGR_ID is not null
+group by MGR_ID having count(empno)>=2
+order by mgr_id 
