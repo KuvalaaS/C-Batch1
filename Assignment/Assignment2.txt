@@ -53,6 +53,15 @@ Select * from emp where mgr_id is null
 select empno,ename,sal from emp where sal>= 1200 and sal <= 1400
 
 --4. Give all the employees in the RESEARCH department a 10% pay rise. Verify that this has been done by listing all their details before and after the rise.
+select * 
+from emp e  
+join dept d on e.deptno = d.deptno  
+where d.dname = 'RESEARCH';
+
+select *, (e.sal * 1.10) as increased_salary
+from emp e  
+join dept d on e.deptno = d.deptno  
+where d.dname = 'RESEARCH';
 
 
 --5. Find the number of CLERKS employed. Give it a descriptive heading. 
@@ -65,12 +74,19 @@ select avg(sal) Average_salary,count(empno) No_of_emp from emp group by job
 select min(sal) as Lowest_salary ,max(sal) as Highest_salary from emp
 
 --8. List full details of departments that don't have any employees. 
+select d.* from dept d
+left join emp e on e.DEPTNO = d.DEPTNO
+where e.deptno is null
 
 
 --9. Get the names and salaries of all the analysts earning more than 1200 who are based in department 20. Sort the answer by ascending order of name.
 select * from emp where job='analyst' and  sal >1200 and deptno=20  
 
 -- 10. For each department, list its name and number together with the total salary paid to employees in that department. 
+select d.deptno, d.dname, sum(e.sal) as total_salary
+from emp e
+join dept d on e.deptno = d.deptno
+group by d.deptno, d.dname;
 
 
 -- 11. Find out salary of both MILLER and SMITH.
