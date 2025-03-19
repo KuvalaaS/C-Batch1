@@ -1,32 +1,26 @@
 --Assignment-4
 
 --1. List unique departments of the EMP table. 
-
 select distinct deptno from emp 
 
 --2. List the name and salary of employees who earn more than 1500 and
 --are in department 10 or 30. Label the columns Employee and Monthly Salary respectively.
-
 select ename as Employee_Name ,sal as Monthly_Salary from emp where sal>1500 and DEPTNO in(10,30)
 
 --3. Display the name, job, and salary of all the employees whose job is MANAGER or 
 --ANALYST and their salary is not equal to 1000, 3000, or 5000. 
-
 select ename,job,sal from emp where job in ('MANAGER' , 'ANALYST') and sal not in(1000,3000,5000)
 
 --4. Display the name, salary and commission for all employees whose commission 
 --amount is greater than their salary increased by 10%.
- 
 select ename,sal,comm from emp where comm > (sal *1.10)
 
 --5. Display the name of all employees who have two Ls in their name and are in 
 --department 30 or their manager is 7782. 
-
 select ename from emp where ename like '%ll%' and (DEPTNO=30 or MGR_ID=7782)
 
 --6. Display the names of employees with experience of over 30 years and under 40 yrs.
 --Count the total number of employees.
- 
   --I>Calculate employee experience between 30 and 40 :
 --select ename,datediff(year,HIREDATE,GETDATE()) as exp from emp 
 where datediff(year,HIREDATE,GETDATE())>30 and datediff(year,HIREDATE,GETDATE())<40
@@ -36,7 +30,6 @@ select count(ename) as "Emp_exp_30_to_40" from emp
 
  --7. Retrieve the names of departments in ascending order and their employees in 
 -- descending order. 
-
 select dname,ename from DEPT,emp order by dname,ename desc
 --or
 select dname,ename from emp inner join dept 
@@ -44,15 +37,12 @@ on emp.DEPTNO=dept.DEPTNO
 order by dname,ename desc
 
 --8. Find out experience of MILLER. 
-
 select ename,datediff(year,hiredate,getdate()) as experience from emp where ename='MILLER'
 
 --9. Write a query to display all employee information where ename contains 5 or more characters
-
 select * from emp where ename like '_____%'
 
 --10. Copy empno, ename of all employees from emp table who work for dept 10 into a new table called emp10.
-
 select empno,ename into emp10 from emp where deptno=10
 select * from emp10
 
