@@ -1,2 +1,45 @@
 Ticket Booking System
 
+--1. Create the database named "TicketBookingSystem" 
+create database TicketBookingSystem
+use TicketBookingSystem
+
+--To create Venue table
+create table tbl_venue (
+    venue_id int primary key,
+    venue_name varchar(100),
+    address varchar(100)
+);
+
+--To create Event table
+create table tbl_event (
+    event_id int primary key,
+    event_name varchar(100),
+    event_date date,
+    event_time time,
+    venue_id int foreign key references tbl_venue(venue_id),
+    total_seats int,
+    available_seats int,
+    ticket_price decimal(10,2),
+    event_type varchar(50) check (event_type in ('movie', 'sports', 'concert'))
+);
+
+
+--To create Customer table
+create table tbl_customer (
+    customer_id int primary key,
+    customer_name varchar(50),
+    email varchar(50),
+    phone_number varchar(20)
+);
+
+--To create Booking table
+create table tbl_booking (
+    booking_id int primary key,
+    customer_id int foreign key references tbl_customer(customer_id),
+    event_id int foreign key references tbl_event(event_id),
+    num_tickets int,
+    total_cost decimal(10,2),
+    booking_date date
+);
+
