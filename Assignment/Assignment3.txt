@@ -1,0 +1,32 @@
+select * from emp;
+select * from Dept;
+
+--1.Retrieve a list of MANAGERS. 
+select * from emp where job= 'MANAGER'
+
+--2. Find out the names and salaries of all employees earning more than 1000 per month.
+select ename, sal from emp where sal > 1000;
+
+-- 3. display the names and salaries of all employees except james.
+select ename, sal from emp where ename <> 'james';
+
+-- 4. find out the details of employees whose names begin with ‘s’.
+select * from emp where ename like 's%';
+
+-- 5. find out the names of all employees that have ‘a’ anywhere in their name.
+select ename from emp where ename like '%a%';
+
+-- 6. find out the names of all employees that have ‘l’ as their third character in their name.
+select ename from emp where ename like '__l%';
+
+-- 7. compute daily salary of jones (assuming 30 days in a month).
+select ename, sal/30 as daily_salary from emp where ename = 'jones';
+
+-- 8. calculate the total monthly salary of all employees.
+select sum(sal) as total_monthly_salary from emp;
+
+-- 9. print the average annual salary.
+select avg(sal) * 12 as average_annual_salary from emp;
+
+-- 10. select the name, job, salary, department number of all employees except salesman from department number 30.
+select ename, job, sal, deptno from emp where deptno = 30 and job <> 'salesman';
