@@ -1,14 +1,9 @@
---1. Employees with a higher salary than employee ID 7566.
+select * from tlb_Employees
+--1. Employees with a higher salary than employee ID 7566
+select Ename from tlb_Employees where salary>(select salary from tlb_Employees where Empno=7556)
 
-select ename from employees 
-where salary > (select salary from employees where emp_id = 7566);
+--2.Employees with the same job title as employee ID 7876
+select Ename,job from tlb_Employees where job=(select job from tlb_Employees where Empno=7876)
 
---2.Employees with the same job title as employee ID 7876.
-
-select ename, dept_no, job from employees 
-where job = (select job from employees where emp_id = 7876);
-
---3. Employees reporting to a manager whose name starts with 'B' or 'C'.
-
-select e.ename, e.emp_id, e.salaryfrom employees e
-where e.manager_id in (select emp_id from employees where ename like 'B%' or ename like 'C%')
+--3.Employees reporting to a manager whose name starts with 'B' or 'C'
+select Empno,Ename from tlb_Employees where e.manager_id in (select Empno from tlb_Employees where ename like 'B%' or ename like 'C%')
