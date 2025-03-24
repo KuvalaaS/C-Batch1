@@ -1,6 +1,6 @@
 --Project Management System - Case study
 
---create Databse
+--create Database
 
 create database ProjectManagementSystem
 
@@ -39,6 +39,54 @@ create table Task(
 	   foreign key(ProjectId) references Project(ProjectId),
 	   foreign key (EmpId) references Employee(EmpId)
 		   )
+
+--Insert records
+
+insert into Employee (EmpId, EmpName, Designation, Gender, Salary, ProjectId) values
+(101, 'Arun Kumar', 'Developer', 'Male', 75000.00, 1),
+(102, 'Priya S', 'Project Manager', 'Female', 90000.00, 2),
+(103, 'Ravi Chandran', 'QA Engineer', 'Male', 65000.00, 3),
+(104, 'Meena Lakshmi', 'UI/UX Designer', 'Female', 70000.00, 4),
+(105, 'Suresh Babu', 'Developer', 'Male', 72000.00, 5),
+(106, 'Anitha Raj', 'DevOps Engineer', 'Female', 80000.00, 6),
+(107, 'Karthik M', 'Tester', 'Male', 67000.00, 7),
+(108, 'Divya S', 'Product Owner', 'Female', 95000.00, 8),
+(109, 'Vignesh R', 'Business Analyst', 'Male', 78000.00, 9),
+(110, 'Lakshmi Priya', 'Developer', 'Female', 76000.00, 10);
+
+
+insert into Project (ProjectId, ProjectName, Descriptions, StartDate, Status) values
+(1, 'Website Development', 'Developing a company website', '2025-01-01', 'started'),
+(2, 'Mobile App', 'Building a mobile application', '2025-02-15', 'dev'),
+(3, 'Billing System', 'Automating billing and invoicing', '2025-03-01', 'build'),
+(4, 'E-commerce Site', 'Online shopping platform', '2025-01-20', 'test'),
+(5, 'HR Management', 'Managing employee records', '2025-02-10', 'deployed'),
+(6, 'Inventory Tracker', 'Tracking warehouse inventory', '2025-03-05', 'dev'),
+(7, 'Support Chatbot', 'Chatbot for customer support', '2025-02-25', 'build'),
+(8, 'Cloud Setup', 'Setting up cloud servers', '2025-01-30', 'started'),
+(9, 'Payroll System', 'Employee salary and payroll system', '2025-02-01', 'test'),
+(10, 'Email Automation', 'Automated email marketing tool', '2025-03-10', 'started');
+
+
+insert into  Task (TaskId, TaskName, ProjectId, EmpId, Status) values
+(201, 'Create Homepage Design', 1, 101, 'Assigned'),
+(202, 'Develop Login Screen', 2, 102, 'Started'),
+(203, 'Generate Monthly Bills', 3, 103, 'Completed'),
+(204, 'Add Product Listings', 4, 104, 'Assigned'),
+(205, 'Update Employee Data', 5, 105, 'Started'),
+(206, 'Scan Stock Levels', 6, 106, 'Completed'),
+(207, 'Configure Chatbot', 7, 107, 'Started'),
+(208, 'Setup Cloud Server', 8, 108, 'Assigned'),
+(209, 'Calculate Salaries', 9, 109, 'Completed'),
+(210, 'Send Welcome Emails', 10, 110, 'Assigned');
+
+
+--Display Tables
+
+select * from Employee
+select * from Project
+select * from Task
+
 
 
 
