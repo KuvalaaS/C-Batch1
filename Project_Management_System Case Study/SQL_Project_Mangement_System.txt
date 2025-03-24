@@ -1,3 +1,44 @@
-CASE STUDY -PROJECT MANAGEMENT SYSTEM
+--Project Management System - Case study
+
+--create Databse
+
+create database ProjectManagementSystem
+
+use ProjectManagementSystem
+
+--Employee Table
+
+create table Employee (
+           EmpId int primary key ,
+	   EmpName varchar(100) not null,
+           Designation varchar(100),
+           Gender varchar(10),
+           Salary decimal(10,2),
+           ProjectId int,
+	   Foreign key (ProjectId) references Project(ProjectId)
+			)
+
+--Project Table
+
+create table Project(
+           ProjectId int primary key,
+	   Projectname varchar(100) not null,
+	   Descriptions varchar(500),
+           StartDate  date,
+	   Status varchar(50) 
+		   )
+
+
+--Task Table
+create table Task(
+           TaskId int primary key,
+	   TaskName varchar(100) not null,
+           ProjectId int,
+           EmpId int,
+           Status varchar(50),
+	   foreign key(ProjectId) references Project(ProjectId),
+	   foreign key (EmpId) references Employee(EmpId)
+		   )
+
 
 
