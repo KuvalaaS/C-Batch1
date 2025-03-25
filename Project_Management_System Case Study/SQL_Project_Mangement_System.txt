@@ -6,6 +6,8 @@ create database ProjectManagementSystem
 
 use ProjectManagementSystem
 
+--Create Tables
+
 --Employee Table
 
 create table Employee (
