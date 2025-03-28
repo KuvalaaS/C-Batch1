@@ -1,0 +1,156 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Day2_C_
+{
+    internal class Assignment1
+    {
+        static void Main(String[] args)
+        {
+            Assignment1 obj1 = new Assignment1();  //<class_name> obj_name = new <class_name>()
+            obj1.Add();
+            obj1.PosOrNeg();
+            ToOperation();
+            multiplication();
+            obj1.Sum();
+        }
+
+
+        //Q1. to accept two integers and check whether they are equal or not. 
+        public void Add()
+        {
+            Console.Write("Enter number1: ");
+            int num1 = Convert.ToInt32(Console.ReadLine());
+
+            Console.Write("Enter number2: ");
+            int num2 = Convert.ToInt32(Console.ReadLine());
+
+            if (num1 == num2)
+            {
+                Console.WriteLine("{0} and {1} are equal",num1,num2);
+            }
+            else
+            {
+                Console.WriteLine("{0} and {1} are not equal",num1,num2);
+            }
+        }
+
+        //Q2.given number is positive or negative.
+        public void PosOrNeg()
+        {
+            Console.Write("Enter  a number: ");
+            int n = Convert.ToInt32(Console.ReadLine());
+
+            if (n > 0)
+            {
+                Console.WriteLine("{0} is positive",n);
+            }
+            else
+            {
+                Console.WriteLine("{0} is negative",n);
+            }
+        }
+
+        //Q3.takes two numbers as input and performs all operations (+,-,*,/) on them.
+        public static void ToOperation()
+        {
+            Console.Write("Enter  a number1: ");
+            int n1 = Convert.ToInt32(Console.ReadLine());
+
+            Console.Write("Choose the operation to be performed (+,-,*,/) ");
+            char op = Convert.ToChar(Console.ReadLine());
+
+            Console.Write("Enter  a number2: ");
+            int n2 = Convert.ToInt32(Console.ReadLine());
+
+            double res = 0;
+            bool validOp = true;
+
+            switch (op)
+            {
+                case '+':
+                    res = n1 + n2;
+                    break;
+
+                case '-':
+                    res = n1 - n2;
+                    break;
+
+                case '*':
+                    res = n1 * n2;
+                    break;
+
+                case '/' :
+                    if (n2 != 0)
+                    {
+
+                        res = n1 / n2;
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Division by zero is not allowed");
+                        validOp = false;
+                      break;
+                        
+                    }
+
+                default:
+                    Console.WriteLine("\"Invalid operation. Please enter +, -, *, /");
+                    validOp = false;
+                    break;
+
+            }
+            if (validOp)
+            {
+                Console.WriteLine("{0} {1} {2} = {3}", n1, op, n2, res);
+            }
+        }
+
+        //Q4.prints the multiplication table of a number as input.
+        public static void multiplication()
+        {
+            Console.Write("Enter a number : ");
+            int number = Convert.ToInt32(Console.ReadLine());
+
+
+            Console.WriteLine("Multiplication Table of {0}:",number);
+            for (int i = 1; i <= 10; i++)
+            {
+                Console.WriteLine("{0} x {1} = {0} * {1}",number,i);
+            }
+
+
+        }
+
+        //Q5. to compute the sum of two given integers. If two values are the same, return the triple of their sum.
+        public  void Sum()
+        {
+            Console.Write("Enter  a number1: ");
+            int b1 = Convert.ToInt32(Console.ReadLine());
+
+        
+            Console.Write("Enter  a number2: ");
+            int b2 = Convert.ToInt32(Console.ReadLine());
+
+            int sum = b1 + b2;
+
+            if (b1 == b2)
+            {
+                Console.WriteLine("Value obtained : " +  sum * 3 );
+            }
+            else
+            {
+                Console.WriteLine("Value obtained :"+sum);
+            }
+            
+
+
+        }
+
+
+    }
+}
