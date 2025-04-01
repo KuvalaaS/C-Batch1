@@ -1,0 +1,109 @@
+//Q1. Create classes employee and manager. An employee will have attributes/fields viz. id, name, dob, salary.  
+A manager will extend/derive from an employee. He will additionally have onsite_allowance and bonus as attributes.
+Compute the salary of an employee and manager
+1. use parameterized constructor from child to call base constructor
+2. overriding's to be used
+
+
+namespace Assignments
+{
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Manager manager = new Manager(101, "Sam", 1988, 70000, 5000, 10000);
+            Console.WriteLine($"Manager Salary: {manager.ComputeSalary()}");
+
+            Employee employee = new Employee(102, "Abarana", 1995, 50000);
+            Console.WriteLine($"Employee Salary: {employee.ComputeSalary()}");
+
+            Console.Read();
+
+
+        }
+    }
+
+    class Employee
+    {
+        protected int id;
+        protected string name;
+        protected int dob;
+        protected float salary;
+
+        public Employee(int id, string name, int dob, float salary)
+        {
+            this.id = id;
+            this.name = name;
+            this.dob = dob;
+            this.salary = salary;
+        }
+
+        // Virtual method to compute salary
+        public virtual float ComputeSalary()
+        {
+            return salary; // Base salary for Employee
+        }
+
+    }
+
+    class Manager : Employee
+    {
+        protected float onsiteAllowance;
+        protected float bonus;
+
+
+        public Manager(int id, string name, int dob, float salary, float onsiteAllowance, float bonus)
+           : base(id, name, dob, salary) // Calling base class constructor
+        {
+            this.onsiteAllowance = onsiteAllowance;
+            this.bonus = bonus;
+        }
+
+        public override float ComputeSalary()
+        {
+            return salary + onsiteAllowance + bonus; // Manager's total salary
+        }
+    }
+
+
+
+}
+
+
+
+//Q2.You are an s/w developer in ABC Consultancy firm. You need to check how many times a function is called. For this you have
+been asked to create a function called CountFunction(). create the function the satisfy the no.of times it is being called.
+
+namespace Assignments
+{
+    internal class Assignment2
+    {
+      public static void Main(String[] args)
+        {
+            //classname.functionname ->static methods,members (no need of object )
+
+            FunctionCalls.countFunction();
+            FunctionCalls.countFunction();
+            FunctionCalls.countFunction();
+            FunctionCalls.countFunction();
+
+            Console.Read();
+
+        }
+    }
+
+    class FunctionCalls
+    {
+       public  static int count =0;
+        public static void countFunction()
+        {
+            count++;
+
+            Console.WriteLine($"Function has been called {count} times");
+
+
+        }
+    }
+
+}
