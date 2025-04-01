@@ -107,3 +107,33 @@ namespace Assignments
     }
 
 }
+
+//Q3.++ unary operator -operator overloading
+
+namespace Assignments
+{
+    internal class Assignment2    {
+        static void Main(string[] args)
+        {
+            Distance distance = new Distance();
+            distance++;
+            Console.WriteLine("The incremented dustance is {0}",distance.dist);
+
+        }
+    }
+
+    class Distance
+    {
+        public int dist;
+        public static Distance operator ++(Distance d)
+            {
+            Distance temp = new Distance();
+            temp.dist = d.dist + 1;
+            return temp;
+
+            }
+
+    }
+
+
+}
