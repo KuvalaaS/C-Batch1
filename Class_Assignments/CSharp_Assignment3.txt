@@ -112,7 +112,7 @@ namespace Assignments
 
 namespace Assignments
 {
-    internal class A+ssignment2    {
+    internal class A+ssignment3    {
         static void Main(string[] args)
         {
             Distance distance = new Distance();
