@@ -1,0 +1,315 @@
+// Namespace and using statements
+using System;
+using static TickectBookingSystem.Task_4;
+
+namespace TickectBookingSystem
+{
+    // Base Event class (defined in Task_4)
+
+    // Main Class Container
+    internal class Task_5
+    {
+        // Movie subclass
+        public class Movie : Event
+        {
+            public string Genre { get; set; }
+            public string ActorName { get; set; }
+            public string ActressName { get; set; }
+
+            public Movie() : base()
+            {
+                Genre = "Unknown";
+                ActorName = "Unknown";
+                ActressName = "Unknown";
+            }
+
+            public Movie(string name, DateTime date, TimeSpan time, string venue, int seats, decimal price, EventType type, string genre, string actorName, string actressName)
+                : base(name, date, time, venue, seats, price, type)
+            {
+                Genre = genre;
+                ActorName = actorName;
+                ActressName = actressName;
+            }
+
+            public void DisplayMovieDetails()
+            {
+                base.DisplayEventDetails();
+                Console.WriteLine($"Genre       : {Genre}");
+                Console.WriteLine($"Actor       : {ActorName}");
+                Console.WriteLine($"Actress     : {ActressName}");
+                Console.WriteLine("-------------------------------");
+            }
+        }
+
+        // Concert subclass
+        public class Concert : Event
+        {
+            public string Artist { get; set; }
+            public string ConcertType { get; set; }
+
+            public Concert() : base()
+            {
+                Artist = "Unknown Artist";
+                ConcertType = "Unknown Type";
+            }
+
+            public Concert(string name, DateTime date, TimeSpan time, string venue, int seats, decimal price, EventType type, string artist, string concertType)
+                : base(name, date, time, venue, seats, price, type)
+            {
+                Artist = artist;
+                ConcertType = concertType;
+            }
+
+            public void DisplayConcertDetails()
+            {
+                base.DisplayEventDetails();
+                Console.WriteLine($"Artist      : {Artist}");
+                Console.WriteLine($"Concert Type: {ConcertType}");
+                Console.WriteLine("-----------------------------");
+            }
+        }
+
+        // Sports subclass
+        public class Sports : Event
+        {
+            public string SportName { get; set; }
+            public string TeamsName { get; set; }
+
+            public Sports() : base()
+            {
+                SportName = "Unknown Sport";
+                TeamsName = "Unknown Teams";
+            }
+
+            public Sports(string name, DateTime date, TimeSpan time, string venue, int seats, decimal price, EventType type, string sportName, string teamsName)
+                : base(name, date, time, venue, seats, price, type)
+            {
+                SportName = sportName;
+                TeamsName = teamsName;
+            }
+
+            public void DisplaySportsDetails()
+            {
+                base.DisplayEventDetails();
+                Console.WriteLine($"Sport Name : {SportName}");
+                Console.WriteLine($"Teams      : {TeamsName}");
+                Console.WriteLine("-----------------------------");
+            }
+        }
+
+        // Customer class
+        public class Customer
+        {
+            public string Name { get; set; }
+            public string Email { get; set; }
+            public string PhoneNumber { get; set; }
+
+            // Default constructor
+            public Customer()
+            {
+                Name = "Unknown";
+                Email = "unknown@example.com";
+                PhoneNumber = "0000000000";
+            }
+
+            // Overloaded constructor
+            public Customer(string name, string email, string phoneNumber)
+            {
+                Name = name;
+                Email = email;
+                PhoneNumber = phoneNumber;
+            }
+        }
+
+        // Ticket Booking System
+        public class TicketBookingSystem
+        {
+            public Event CreateEvent(string eventName, DateTime date, TimeSpan time, int totalSeats, decimal ticketPrice, EventType eventType, string venueName, string extra1 = "", string extra2 = "")
+            {
+                switch (eventType)
+                {
+                    case EventType.Movie:
+                        return new Movie(eventName, date, time, venueName, totalSeats, ticketPrice, eventType, extra1, extra2, "Unknown");
+                    case EventType.Concert:
+                        return new Concert(eventName, date, time, venueName, totalSeats, ticketPrice, eventType, extra1, extra2);
+                    case EventType.Sports:
+                        return new Sports(eventName, date, time, venueName, totalSeats, ticketPrice, eventType, extra1, extra2);
+                    default:
+                        throw new ArgumentException("Invalid event type specified.");
+                }
+            }
+
+            public void DisplayEventDetails(Event ev)
+            {
+                if (ev is Movie movie)
+                    movie.DisplayMovieDetails();
+                else if (ev is Concert concert)
+                    concert.DisplayConcertDetails();
+                else if (ev is Sports sports)
+                    sports.DisplaySportsDetails();
+                else
+                    ev.DisplayEventDetails();
+            }
+
+            public decimal BookTickets(Event ev, int numTickets)
+            {
+                if (numTickets <= ev.AvailableSeats)
+                {
+                    ev.BookTickets(numTickets);
+                    decimal totalCost = numTickets * ev.TicketPrice;
+                    Console.WriteLine($"Successfully booked {numTickets} ticket(s). Total cost: ₹{totalCost}");
+                    return totalCost;
+                }
+                else
+                {
+                    Console.WriteLine("Not enough tickets available. Event might be sold out.");
+                    return 0;
+                }
+            }
+
+            public void CancelTickets(Event ev, int numTickets)
+            {
+                int booked = ev.TotalSeats - ev.AvailableSeats;
+                if (numTickets <= booked)
+                {
+                    ev.CancelBooking(numTickets);
+                    Console.WriteLine($"{numTickets} ticket(s) cancelled successfully.");
+                }
+                else
+                {
+                    Console.WriteLine("Cannot cancel more tickets than booked.");
+                }
+            }
+        }
+
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                TicketBookingSystem system = new TicketBookingSystem();
+                Event selectedEvent = null;
+
+                Console.WriteLine("=== Welcome to the Ticket Booking System ===");
+                Console.WriteLine("Choose Event Type:");
+                Console.WriteLine("1. Movie");
+                Console.WriteLine("2. Sports");
+                Console.WriteLine("3. Concert");
+                Console.Write("Enter your choice: ");
+
+                string input = Console.ReadLine();
+                if (!int.TryParse(input, out int choice) || choice < 1 || choice > 3)
+                {
+                    Console.WriteLine("Invalid choice.");
+                    return;
+                }
+
+                EventType eventType = choice == 1 ? EventType.Movie : choice == 2 ? EventType.Sports : EventType.Concert;
+
+                Console.Write("Enter Event Name: ");
+                string name = Console.ReadLine();
+
+                Console.Write("Enter Event Date (yyyy-mm-dd): ");
+                if (!DateTime.TryParse(Console.ReadLine(), out DateTime date))
+                {
+                    Console.WriteLine("Invalid date format.");
+                    return;
+                }
+
+                Console.Write("Enter Event Time (hh:mm): ");
+                if (!TimeSpan.TryParse(Console.ReadLine(), out TimeSpan time))
+                {
+                    Console.WriteLine("Invalid time format.");
+                    return;
+                }
+
+                Console.Write("Enter Venue Name: ");
+                string venue = Console.ReadLine();
+
+                Console.Write("Enter Total Seats: ");
+                if (!int.TryParse(Console.ReadLine(), out int seats))
+                {
+                    Console.WriteLine("Invalid seat count.");
+                    return;
+                }
+
+                Console.Write("Enter Ticket Price: ");
+                if (!decimal.TryParse(Console.ReadLine(), out decimal price))
+                {
+                    Console.WriteLine("Invalid price.");
+                    return;
+                }
+
+                string extra1 = "", extra2 = "";
+
+                switch (eventType)
+                {
+                    case EventType.Movie:
+                        Console.Write("Enter Movie Genre: ");
+                        extra1 = Console.ReadLine();
+                        Console.Write("Enter Actor Name: ");
+                        extra2 = Console.ReadLine();
+                        break;
+                    case EventType.Concert:
+                        Console.Write("Enter Artist Name: ");
+                        extra1 = Console.ReadLine();
+                        Console.Write("Enter Concert Type: ");
+                        extra2 = Console.ReadLine();
+                        break;
+                    case EventType.Sports:
+                        Console.Write("Enter Sport Name: ");
+                        extra1 = Console.ReadLine();
+                        Console.Write("Enter Teams (e.g., India vs Pakistan): ");
+                        extra2 = Console.ReadLine();
+                        break;
+                }
+
+                selectedEvent = system.CreateEvent(name, date, time, seats, price, eventType, venue, extra1, extra2);
+
+                bool running = true;
+                while (running)
+                {
+                    Console.WriteLine("\n--- MENU ---");
+                    Console.WriteLine("1. View Event Details");
+                    Console.WriteLine("2. Book Tickets");
+                    Console.WriteLine("3. Cancel Tickets");
+                    Console.WriteLine("4. Exit");
+                    Console.Write("Enter your choice: ");
+
+                    if (!int.TryParse(Console.ReadLine(), out int menu))
+                    {
+                        Console.WriteLine("Invalid input.");
+                        continue;
+                    }
+
+                    switch (menu)
+                    {
+                        case 1:
+                            system.DisplayEventDetails(selectedEvent);
+                            break;
+                        case 2:
+                            Console.Write("Enter number of tickets to book: ");
+                            if (int.TryParse(Console.ReadLine(), out int bookCount))
+                                system.BookTickets(selectedEvent, bookCount);
+                            else
+                                Console.WriteLine("Invalid input.");
+                            break;
+                        case 3:
+                            Console.Write("Enter number of tickets to cancel: ");
+                            if (int.TryParse(Console.ReadLine(), out int cancelCount))
+                                system.CancelTickets(selectedEvent, cancelCount);
+                            else
+                                Console.WriteLine("Invalid input.");
+                            break;
+                        case 4:
+                            running = false;
+                            Console.WriteLine("Thank you for using the Ticket Booking System!");
+                            break;
+                        default:
+                            Console.WriteLine("Invalid choice.");
+                            break;
+                    }
+                }
+            }
+        }
+    }
+}

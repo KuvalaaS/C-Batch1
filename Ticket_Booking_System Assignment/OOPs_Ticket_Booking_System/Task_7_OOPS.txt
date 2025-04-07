@@ -1,0 +1,404 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TickectBookingSystem
+{
+    internal class Task_7
+    {
+        public class Venue
+        {
+            public string VenueName { get; set; }
+            public string Address { get; set; }
+
+            public Venue() { VenueName = "Unknown"; Address = "Unknown"; }
+
+            public Venue(string name, string address)
+            {
+                VenueName = name;
+                Address = address;
+            }
+
+            public void DisplayVenueDetails()
+            {
+                Console.WriteLine($"Venue: {VenueName}, Address: {Address}");
+            }
+        }
+
+        public class Customer
+        {
+            public string CustomerName { get; set; }
+            public string Email { get; set; }
+            public string PhoneNumber { get; set; }
+
+            public Customer(string name, string email, string phone)
+            {
+                CustomerName = name;
+                Email = email;
+                PhoneNumber = phone;
+            }
+
+            public void DisplayCustomerDetails()
+            {
+                Console.WriteLine($"Customer: {CustomerName}, Email: {Email}, Phone: {PhoneNumber}");
+            }
+        }
+
+        public abstract class Event
+        {
+            public enum EventType { Movie, Sports, Concert }
+
+            public string EventName { get; set; }
+            public DateTime EventDate { get; set; }
+            public TimeSpan EventTime { get; set; }
+            public Venue Venue { get; set; }
+            public int TotalSeats { get; set; }
+            public int AvailableSeats { get; set; }
+            public decimal TicketPrice { get; set; }
+            public EventType Type { get; set; }
+
+            public Event(string name, DateTime date, TimeSpan time, Venue venue, int seats, decimal price, EventType type)
+            {
+                EventName = name;
+                EventDate = date;
+                EventTime = time;
+                Venue = venue;
+                TotalSeats = seats;
+                AvailableSeats = seats;
+                TicketPrice = price;
+                Type = type;
+            }
+
+            public int GetBookedNoOfTickets() => TotalSeats - AvailableSeats;
+
+            public void BookTickets(int num)
+            {
+                if (AvailableSeats >= num)
+                    AvailableSeats -= num;
+                else
+                    Console.WriteLine("Not enough seats available.");
+            }
+
+            public void CancelBooking(int num)
+            {
+                if (AvailableSeats + num <= TotalSeats)
+                    AvailableSeats += num;
+                else
+                    Console.WriteLine("Invalid cancellation.");
+            }
+
+            public decimal CalculateTotalRevenue() => TicketPrice * GetBookedNoOfTickets();
+
+            public virtual void DisplayEventDetails()
+            {
+                Console.WriteLine($"\nEvent: {EventName} | Type: {Type} | Date: {EventDate.ToShortDateString()} | Time: {EventTime} | Available Seats: {AvailableSeats} | Price: {TicketPrice}");
+                Venue.DisplayVenueDetails();
+            }
+        }
+
+        public class Movie : Event
+        {
+            public string Genre { get; set; }
+            public string LeadActor { get; set; }
+
+            public Movie(string name, DateTime date, TimeSpan time, Venue venue, int seats, decimal price, string genre, string actor)
+                : base(name, date, time, venue, seats, price, EventType.Movie)
+            {
+                Genre = genre;
+                LeadActor = actor;
+            }
+
+            public override void DisplayEventDetails()
+            {
+                base.DisplayEventDetails();
+                Console.WriteLine($"Genre: {Genre}, Lead Actor: {LeadActor}");
+            }
+        }
+
+        public class Concert : Event
+        {
+            public string Artist { get; set; }
+
+            public Concert(string name, DateTime date, TimeSpan time, Venue venue, int seats, decimal price, string artist)
+                : base(name, date, time, venue, seats, price, EventType.Concert)
+            {
+                Artist = artist;
+            }
+
+            public override void DisplayEventDetails()
+            {
+                base.DisplayEventDetails();
+                Console.WriteLine($"Artist: {Artist}");
+            }
+        }
+
+        public class Sport : Event
+        {
+            public string SportType { get; set; }
+
+            public Sport(string name, DateTime date, TimeSpan time, Venue venue, int seats, decimal price, string sportType)
+                : base(name, date, time, venue, seats, price, EventType.Sports)
+            {
+                SportType = sportType;
+            }
+
+            public override void DisplayEventDetails()
+            {
+                base.DisplayEventDetails();
+                Console.WriteLine($"Sport Type: {SportType}");
+            }
+        }
+
+        public class Booking
+        {
+            private static int counter = 1;
+
+            public int BookingId { get; }
+            public Customer[] Customers { get; set; }
+            public Event BookedEvent { get; set; }
+            public int NumTickets { get; set; }
+            public decimal TotalCost { get; set; }
+            public DateTime BookingDate { get; set; }
+
+            public Booking(Customer[] customers, Event ev, int numTickets)
+            {
+                if (customers.Length != numTickets)
+                    throw new ArgumentException("Customer count must match ticket count.");
+
+                BookingId = counter++;
+                Customers = customers;
+                BookedEvent = ev;
+                NumTickets = numTickets;
+                TotalCost = ev.TicketPrice * numTickets;
+                BookingDate = DateTime.Now;
+
+                ev.BookTickets(numTickets);
+            }
+
+            public void DisplayBookingDetails()
+            {
+                Console.WriteLine($"\nBooking ID: {BookingId} | Event: {BookedEvent.EventName} | Tickets: {NumTickets} | Cost: {TotalCost} | Date: {BookingDate}");
+                foreach (var cust in Customers)
+                    cust.DisplayCustomerDetails();
+            }
+        }
+
+        public class BookingSystem
+        {
+            private List<Event> events = new List<Event>();
+            private List<Booking> bookings = new List<Booking>();
+
+            public void AddEvent(Event ev) => events.Add(ev);
+
+            public Event GetEventByName(string name) =>
+                events.Find(e => e.EventName.Equals(name, StringComparison.OrdinalIgnoreCase));
+
+            public void MakeBooking(Customer[] customers, string eventName, int ticketCount)
+            {
+                Event ev = GetEventByName(eventName);
+                if (ev != null && ev.AvailableSeats >= ticketCount)
+                {
+                    Booking booking = new Booking(customers, ev, ticketCount);
+                    bookings.Add(booking);
+                    Console.WriteLine("Booking successful!");
+                    booking.DisplayBookingDetails();
+                }
+                else
+                    Console.WriteLine("Booking failed. Event not found or insufficient seats.");
+            }
+
+            public void CancelBooking(string eventName, int tickets)
+            {
+                Event ev = GetEventByName(eventName);
+                if (ev != null)
+                {
+                    ev.CancelBooking(tickets);
+                    Console.WriteLine($"{tickets} tickets cancelled successfully.");
+                }
+                else
+                    Console.WriteLine("Event not found.");
+            }
+
+            public void DisplayAllEvents()
+            {
+                if (events.Count == 0)
+                {
+                    Console.WriteLine("No events available.");
+                    return;
+                }
+
+                foreach (var e in events)
+                {
+                    e.DisplayEventDetails();
+                }
+            }
+
+            public void DisplayAllBookings()
+            {
+                if (bookings.Count == 0)
+                {
+                    Console.WriteLine("No bookings found.");
+                    return;
+                }
+
+                foreach (var booking in bookings)
+                {
+                    booking.DisplayBookingDetails();
+                }
+            }
+        }
+
+
+            public static void Main(string[] args)
+            {
+                BookingSystem system = new BookingSystem();
+                bool exit = false;
+
+                Console.WriteLine("Welcome to the Ticket Booking System!");
+
+                while (!exit)
+                {
+                    Console.WriteLine("\nAvailable Commands: create_event, book_tickets, cancel_tickets, get_available_seats, get_event_details, get_bookings, exit");
+                    Console.Write("Command: ");
+                    string command = Console.ReadLine().ToLower();
+
+                    switch (command)
+                    {
+                        case "create_event":
+                            Console.Write("Event name: ");
+                            string name = Console.ReadLine();
+                            if (system.GetEventByName(name) != null)
+                            {
+                                Console.WriteLine("Event already exists.");
+                                break;
+                            }
+
+                            Console.Write("Venue name: ");
+                            string venueName = Console.ReadLine();
+                            Console.Write("Venue address: ");
+                            string venueAddress = Console.ReadLine();
+                            Venue venue = new Venue(venueName, venueAddress);
+
+                            Console.Write("Date (yyyy-mm-dd): ");
+                            DateTime date = DateTime.Parse(Console.ReadLine());
+                            Console.Write("Time (hh:mm): ");
+                            TimeSpan time = TimeSpan.Parse(Console.ReadLine());
+
+                            Console.Write("Total seats: ");
+                            int seats = int.Parse(Console.ReadLine());
+                            Console.Write("Ticket price: ");
+                            decimal price = decimal.Parse(Console.ReadLine());
+
+                            Console.Write("Event type (Movie/Concert/Sports): ");
+                            string type = Console.ReadLine().ToLower();
+
+                            Event ev = null;
+                            if (type == "movie")
+                            {
+                                Console.Write("Genre: ");
+                                string genre = Console.ReadLine();
+                                Console.Write("Lead actor: ");
+                                string actor = Console.ReadLine();
+                                ev = new Movie(name, date, time, venue, seats, price, genre, actor);
+                            }
+                            else if (type == "concert")
+                            {
+                                Console.Write("Artist: ");
+                                string artist = Console.ReadLine();
+                                ev = new Concert(name, date, time, venue, seats, price, artist);
+                            }
+                            else if (type == "sports")
+                            {
+                                Console.Write("Sport type: ");
+                                string sportType = Console.ReadLine();
+                                ev = new Sport(name, date, time, venue, seats, price, sportType);
+                            }
+
+                            if (ev != null)
+                            {
+                                system.AddEvent(ev);
+                                Console.WriteLine("Event created successfully.");
+                            }
+                            else
+                                Console.WriteLine("Invalid event type.");
+                            break;
+
+                        case "book_tickets":
+                            Console.Write("Event name: ");
+                            string ename = Console.ReadLine();
+                            Event e = system.GetEventByName(ename);
+                            if (e == null)
+                            {
+                                Console.WriteLine("Event not found.");
+                                break;
+                            }
+
+                            Console.Write("Number of tickets: ");
+                            int count = int.Parse(Console.ReadLine());
+                            if (count > e.AvailableSeats)
+                            {
+                                Console.WriteLine("Not enough seats.");
+                                break;
+                            }
+
+                            Customer[] customers = new Customer[count];
+                            for (int i = 0; i < count; i++)
+                            {
+                                Console.WriteLine($"\nCustomer {i + 1}:");
+                                Console.Write("Name: ");
+                                string cname = Console.ReadLine();
+                                Console.Write("Email: ");
+                                string email = Console.ReadLine();
+                                Console.Write("Phone: ");
+                                string phone = Console.ReadLine();
+                                customers[i] = new Customer(cname, email, phone);
+                            }
+
+                            system.MakeBooking(customers, ename, count);
+                            break;
+
+                        case "cancel_tickets":
+                            Console.Write("Event name: ");
+                            string cancelEvent = Console.ReadLine();
+                            Console.Write("Tickets to cancel: ");
+                            int cancelCount = int.Parse(Console.ReadLine());
+                            system.CancelBooking(cancelEvent, cancelCount);
+                            break;
+
+                        case "get_available_seats":
+                            Console.Write("Event name: ");
+                            string checkEvent = Console.ReadLine();
+                            var evt = system.GetEventByName(checkEvent);
+                            if (evt != null)
+                                Console.WriteLine($"Available Seats: {evt.AvailableSeats}");
+                            else
+                                Console.WriteLine("Event not found.");
+                            break;
+
+                        case "get_event_details":
+                            system.DisplayAllEvents();
+                            break;
+
+                        case "get_bookings":
+                            system.DisplayAllBookings();
+                            break;
+
+                        case "exit":
+                            exit = true;
+                            break;
+
+                        default:
+                            Console.WriteLine("Invalid command.");
+                            break;
+                    }
+                }
+
+                Console.WriteLine("Thank you for using the system. Goodbye!");
+            }
+        
+    }
+}
+
+

@@ -1,0 +1,35 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TickectBookingSystem
+{
+    internal class Task_1
+    {
+        static void Main(string[] args)
+        {
+            //Task 1: Conditional Statements 
+
+            // Input: Available tickets
+            Console.Write("Enter number of available tickets: ");
+            int availableTickets = int.Parse(Console.ReadLine());
+
+            // Input: Tickets to be booked
+            Console.Write("Enter number of tickets to book: ");
+            int noOfBookingTickets = int.Parse(Console.ReadLine());
+
+            //Conditional Statement
+            if(availableTickets>= noOfBookingTickets)
+            {
+                int remainingTickets = availableTickets - noOfBookingTickets;
+                Console.WriteLine($"Booking successful! Remaining tickets: {remainingTickets}");
+            }
+            else
+            {
+                Console.WriteLine("Booking failed! Tickets unavailable.");
+            }
+        }
+    }
+}

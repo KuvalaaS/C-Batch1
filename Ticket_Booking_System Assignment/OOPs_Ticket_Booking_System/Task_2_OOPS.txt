@@ -1,0 +1,61 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TickectBookingSystem
+{
+    internal class Task_2
+    {
+        static void Main(string[] args)
+        {
+            // Display ticket options
+            Console.WriteLine("Available Ticket Types:");
+            Console.WriteLine("1. Silver");
+            Console.WriteLine("2. Gold");
+            Console.WriteLine("3. Diamond");
+
+            // Input: Ticket type
+            Console.Write("\nEnter ticket type (Silver/Gold/Diamond): ");
+            string ticketType = Console.ReadLine().ToLower(); // To handle case-insensitive input
+
+            // Input: Number of tickets
+            Console.Write("Enter number of tickets to book: ");
+            int noOfTickets = int.Parse(Console.ReadLine());
+
+            double pricePerTicket = 0;
+
+            // Nested conditional to determine price based on ticket type
+            if (ticketType == "silver")
+            {
+                pricePerTicket = 100;
+            }
+            else if (ticketType == "gold")
+            {
+                pricePerTicket = 200;
+            }
+            else if (ticketType == "diamond")
+            {
+                pricePerTicket = 300;
+            }
+            else
+            {
+                Console.WriteLine("Invalid ticket type selected.");
+                return;
+            }
+
+            // Calculate total cost
+            double totalCost = pricePerTicket * noOfTickets;
+
+            // Output
+            Console.WriteLine($"\n Booking successful!");
+            Console.WriteLine($"Ticket Type: {ticketType.ToUpper()}");
+            Console.WriteLine($"Number of Tickets: {noOfTickets}");
+            Console.WriteLine($"Price per Ticket: {pricePerTicket}");
+            Console.WriteLine($"Total Cost: {totalCost}");
+
+            Console.ReadLine();
+        }
+    }
+}
