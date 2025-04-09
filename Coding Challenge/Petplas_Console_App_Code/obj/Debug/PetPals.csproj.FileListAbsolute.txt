@@ -1,0 +1,10 @@
+C:\Users\Dell\source\repos\PetPals\PetPals\bin\Debug\PetPals.exe.config
+C:\Users\Dell\source\repos\PetPals\PetPals\bin\Debug\PetPals.exe
+C:\Users\Dell\source\repos\PetPals\PetPals\bin\Debug\PetPals.pdb
+C:\Users\Dell\source\repos\PetPals\PetPals\bin\Debug\System.Data.SqlClient.dll
+C:\Users\Dell\source\repos\PetPals\PetPals\bin\Debug\System.Data.SqlClient.xml
+C:\Users\Dell\source\repos\PetPals\PetPals\obj\Debug\PetPals.csproj.AssemblyReference.cache
+C:\Users\Dell\source\repos\PetPals\PetPals\obj\Debug\PetPals.csproj.CoreCompileInputs.cache
+C:\Users\Dell\source\repos\PetPals\PetPals\obj\Debug\PetPals.csproj.Up2Date
+C:\Users\Dell\source\repos\PetPals\PetPals\obj\Debug\PetPals.exe
+C:\Users\Dell\source\repos\PetPals\PetPals\obj\Debug\PetPals.pdb
